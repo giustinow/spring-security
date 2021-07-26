@@ -1,5 +1,6 @@
 package com.security.springsecurity.security;
 
+import com.security.springsecurity.security.constants.ApplicationUserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,13 +37,15 @@ public class  ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails marioRossi = User.builder()
                 .username("mariorossi")
                 .password(passwordEncoder().encode("password")) // Must be encoded
-                .roles(STUDENT.name()) // ROLE_STUDENT -> student role
+//                .roles(STUDENT.name()) // ROLE_STUDENT -> student role
+                .authorities(STUDENT.getGrantedAuthorities())
                 .build();
 
         UserDetails giuseppeNeri = User.builder()
                 .username("giuseppeneri")
                 .password(passwordEncoder().encode("password"))
-                .roles(ADMIN.name()) // ROLE_ADMIN -> admin role
+//                .roles(ADMIN.name()) // ROLE_ADMIN -> admin role
+                .authorities(ADMIN.getGrantedAuthorities())
                 .build();
 
         return new InMemoryUserDetailsManager(
