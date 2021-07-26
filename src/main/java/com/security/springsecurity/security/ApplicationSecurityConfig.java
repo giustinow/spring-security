@@ -1,8 +1,9 @@
 package com.security.springsecurity.security;
 
-import com.security.springsecurity.security.constants.ApplicationUserRole;
+import com.security.springsecurity.security.constants.ApplicationUserPermission;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +16,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import static com.security.springsecurity.security.constants.ApplicationUserRole.ADMIN;
 import static com.security.springsecurity.security.constants.ApplicationUserRole.STUDENT;
+import static com.security.springsecurity.security.constants.ApplicationUserPermission.STUDENT_READ;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +26,7 @@ public class  ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/student/**").hasRole(ADMIN.name())
+                .antMatchers(HttpMethod.GET, "/student/**").hasAuthority(STUDENT_READ.getPermission())
                 .anyRequest()
                 .authenticated()
                 .and()
